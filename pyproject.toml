@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "desktop-application"
+version = "0.1.0"
+description = ""
+authors = ["Mizamy <amizamy@bk.ru>"]
+readme = "README.md"
+packages = [{include = "desktop_application"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyqt5 = "^5.15.9"
+matplotlib = "^3.7.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
