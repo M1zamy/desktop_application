@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QComboBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QComboBox, QLabel, QLineEdit, QHBoxLayout
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import numpy as np
@@ -29,11 +29,24 @@ class App(QMainWindow):
 
         self.function_selector = QComboBox()
         self.function_selector.addItem('x**2', 'x**2')
-        self.function_selector.addItem('sin(x)', 'np.sin(x)')
-        self.function_selector.addItem('cos(x)', 'np.cos(x)')
-        self.function_selector.addItem('exp(x)', 'np.exp(x)')
-        self.function_selector.addItem('log(x)', 'np.log(x)')
+        self.function_selector.addItem('np.sin(x)', 'np.sin(x)')
+        self.function_selector.addItem('np.cos(x)', 'np.cos(x)')
+        self.function_selector.addItem('np.exp(x)', 'np.exp(x)')
+        self.function_selector.addItem('np.log(x)', 'np.log(x)')
         self.layout.addWidget(self.function_selector)
+
+        self.x_range_layout = QHBoxLayout()
+        self.layout.addLayout(self.x_range_layout)
+
+        self.x_start_label = QLabel('Начальное значение X:')
+        self.x_range_layout.addWidget(self.x_start_label)
+        self.x_start_input = QLineEdit('-10')
+        self.x_range_layout.addWidget(self.x_start_input)
+
+        self.x_end_label = QLabel('Конечное значение X:')
+        self.x_range_layout.addWidget(self.x_end_label)
+        self.x_end_input = QLineEdit('10')
+        self.x_range_layout.addWidget(self.x_end_input)
 
         self.button.clicked.connect(self.plot)
 
@@ -41,7 +54,10 @@ class App(QMainWindow):
         self.figure.clear()
 
         expression = self.function_selector.currentData()
-        x = np.linspace(-10, 10, 1000)
+        x_start = float(self.x_start_input.text())
+        x_end = float(self.x_end_input.text())
+
+        x = np.linspace(x_start, x_end, 1000)
 
         try:
             y = eval(expression)
